@@ -1,0 +1,6 @@
+{
+  "name": "SmartTech Teacher Academy",
+  "description": "AI-Powered Teacher Development Platform for SmartTech Training & Testing Center founded by Dr Ahmed Mabrouk.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

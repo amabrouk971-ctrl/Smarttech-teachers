@@ -1,0 +1,170 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Registered teacher or administrator profile",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "description": "Email address" },
+        "name": { "type": "string", "description": "Display name" },
+        "role": { "type": "string", "enum": ["teacher", "content_manager", "membership_manager", "admin", "super_admin"], "description": "User role" },
+        "subjects": { "type": "string", "description": "Comma-separated teaching subjects" },
+        "stages": { "type": "string", "description": "Comma-separated teaching stages" },
+        "language": { "type": "string", "description": "Primary teaching language" },
+        "experience": { "type": "string", "description": "Years of experience" },
+        "goals": { "type": "string", "description": "Professional development goals" },
+        "membershipStatus": { "type": "string", "enum": ["free", "pending", "active", "expired", "suspended"], "description": "Current membership tier" },
+        "planId": { "type": "string", "description": "Current plan identifier" },
+        "expiresAt": { "type": "string", "description": "Subscription expiration ISO date" },
+        "createdAt": { "type": "string", "description": "Account creation timestamp" },
+        "updatedAt": { "type": "string", "description": "Account update timestamp" }
+      },
+      "required": ["id", "email", "name", "role", "membershipStatus"]
+    },
+    "Subject": {
+      "title": "Subject",
+      "description": "Educational subject offering",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique subject identifier" },
+        "nameAr": { "type": "string", "description": "Arabic subject name" },
+        "nameEn": { "type": "string", "description": "English subject name" },
+        "category": { "type": "string", "description": "Subject category" },
+        "icon": { "type": "string", "description": "Lucide icon name" },
+        "scenarioCount": { "type": "string", "description": "Number of practice scenarios" },
+        "isActive": { "type": "string", "description": "Whether subject is active" }
+      },
+      "required": ["id", "nameAr", "nameEn"]
+    },
+    "Scenario": {
+      "title": "Scenario",
+      "description": "Teaching classroom practice scenario",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique scenario ID" },
+        "subjectId": { "type": "string", "description": "Associated subject" },
+        "stageId": { "type": "string", "description": "Associated educational stage" },
+        "type": { "type": "string", "enum": ["start_lesson", "explain_concept", "check_understanding", "misconception", "struggling_student", "advanced_student", "assessment_feedback"], "description": "Foundational scenario type" },
+        "titleAr": { "type": "string", "description": "Arabic scenario title" },
+        "titleEn": { "type": "string", "description": "English scenario title" },
+        "contextAr": { "type": "string", "description": "Classroom context in Arabic" },
+        "contextEn": { "type": "string", "description": "Classroom context in English" },
+        "studentPersona": { "type": "string", "description": "Student persona and challenge" },
+        "dialogue": { "type": "string", "description": "Initial student dialogue" },
+        "optionsJson": { "type": "string", "description": "JSON array of teacher response options and feedback" },
+        "pedagogyAdvice": { "type": "string", "description": "Pedagogical explanation and best practice" }
+      },
+      "required": ["id", "subjectId", "stageId", "type", "titleAr", "titleEn"]
+    },
+    "Article": {
+      "title": "Article",
+      "description": "Knowledge center published article or draft",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Article ID" },
+        "slug": { "type": "string", "description": "URL slug" },
+        "title": { "type": "string", "description": "Article title" },
+        "titleAr": { "type": "string", "description": "Arabic title" },
+        "excerpt": { "type": "string", "description": "Short excerpt" },
+        "content": { "type": "string", "description": "Full HTML/Markdown content" },
+        "category": { "type": "string", "description": "Subject or pedagogical category" },
+        "author": { "type": "string", "description": "Author name" },
+        "seoTitle": { "type": "string", "description": "SEO meta title" },
+        "metaDescription": { "type": "string", "description": "SEO meta description" },
+        "canonicalUrl": { "type": "string", "description": "Canonical URL" },
+        "tags": { "type": "string", "description": "Comma separated tags" },
+        "status": { "type": "string", "enum": ["draft", "review", "published", "scheduled", "archived"], "description": "Publication status" },
+        "publishedAt": { "type": "string", "description": "Publication date" },
+        "scheduledFor": { "type": "string", "description": "Scheduled publication date" },
+        "featuredImage": { "type": "string", "description": "Image URL" }
+      },
+      "required": ["id", "slug", "title", "content", "status"]
+    },
+    "Payment": {
+      "title": "Payment",
+      "description": "Manual membership payment submission for review",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Payment ID" },
+        "userId": { "type": "string", "description": "Teacher user ID" },
+        "userEmail": { "type": "string", "description": "Teacher email" },
+        "userName": { "type": "string", "description": "Teacher name" },
+        "planId": { "type": "string", "description": "Selected plan: monthly or annual" },
+        "amountEgp": { "type": "string", "description": "Amount in EGP" },
+        "paymentMethod": { "type": "string", "description": "Vodafone Cash, InstaPay, Bank Transfer, etc." },
+        "referenceNumber": { "type": "string", "description": "Transaction reference or receipt code" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"], "description": "Review status" },
+        "submittedAt": { "type": "string", "description": "Submission timestamp" },
+        "reviewedAt": { "type": "string", "description": "Review timestamp" },
+        "reviewedBy": { "type": "string", "description": "Reviewer ID" },
+        "notes": { "type": "string", "description": "Admin or review notes" }
+      },
+      "required": ["id", "userId", "planId", "amountEgp", "status", "submittedAt"]
+    },
+    "CoachingPlan": {
+      "title": "CoachingPlan",
+      "description": "Private student coaching strategy generated by teacher",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Plan ID" },
+        "teacherId": { "type": "string", "description": "Author teacher user ID" },
+        "subject": { "type": "string", "description": "Subject name" },
+        "stage": { "type": "string", "description": "Educational stage" },
+        "studentProfile": { "type": "string", "description": "Anonymized student learning context" },
+        "observedDifficulty": { "type": "string", "description": "Observed learning challenge" },
+        "learningGoal": { "type": "string", "description": "Target goal" },
+        "supportPlan": { "type": "string", "description": "Structured AI-generated pedagogical plan" },
+        "createdAt": { "type": "string", "description": "Creation timestamp" }
+      },
+      "required": ["id", "teacherId", "subject", "stage", "observedDifficulty", "supportPlan"]
+    },
+    "LiveSession": {
+      "title": "LiveSession",
+      "description": "Google Meet 1-on-1 coaching or teacher training session",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Session ID" },
+        "teacherId": { "type": "string", "description": "Teacher user ID" },
+        "teacherName": { "type": "string", "description": "Teacher name" },
+        "title": { "type": "string", "description": "Session title" },
+        "topic": { "type": "string", "description": "Pedagogical focus topic" },
+        "scheduledTime": { "type": "string", "description": "Scheduled time ISO" },
+        "meetUri": { "type": "string", "description": "Google Meet meeting URI" },
+        "meetCode": { "type": "string", "description": "Google Meet conference code" },
+        "status": { "type": "string", "enum": ["scheduled", "completed", "cancelled"], "description": "Session status" }
+      },
+      "required": ["id", "teacherId", "title", "scheduledTime"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Registered teacher profiles with RBAC and membership status"
+    },
+    "/subjects/{subjectId}": {
+      "schema": "Subject",
+      "description": "Catalog of school and STEM subjects"
+    },
+    "/scenarios/{scenarioId}": {
+      "schema": "Scenario",
+      "description": "Pedagogical classroom practice scenarios across 7 core types"
+    },
+    "/articles/{articleId}": {
+      "schema": "Article",
+      "description": "Knowledge center published articles and educational guides"
+    },
+    "/payments/{paymentId}": {
+      "schema": "Payment",
+      "description": "Manual membership payment receipts for verification"
+    },
+    "/coaching_plans/{planId}": {
+      "schema": "CoachingPlan",
+      "description": "Private teacher coaching plans for individual classroom cases"
+    },
+    "/live_sessions/{sessionId}": {
+      "schema": "LiveSession",
+      "description": "Live Google Meet coaching and mentoring appointments"
+    }
+  }
+}
